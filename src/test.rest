@@ -1,0 +1,55 @@
+###
+# Test GET /test route
+GET http://localhost:3000/test
+
+###
+# Test POST /api/coordinators route
+POST http://localhost:3000/api/coordinators
+Content-Type: application/json
+
+{
+    "Name": "John Doe",
+    "Phone": "1234567890",
+    "Email": "johndoe@example.com"
+}
+
+###
+# Test POST /api/insurance route
+POST http://localhost:3000/api/insurance
+Content-Type: application/json
+
+{
+    "AuthUnitsApproved": 10,
+    "CPT": "CPT123",
+    "Frequency": 5,
+    "Note": "Initial Insurance"
+}
+
+###
+# Test POST /api/customers route
+POST http://localhost:3000/api/customers
+Content-Type: application/json
+
+{
+    "Username": "janedoe",
+    "Password": "password456",
+    "MemberID": "12345",
+    "MedicaidID": "67890",
+    "Name": "Jane Doe",
+    "Phone": "0987654321",
+    "ProfilePhotoPath": "/images/profile/janedoe.png",
+    "InsuranceCardPhotoPath": "/images/insurance/janedoe.png",
+    "Address": "456 Elm St",
+    "DeliveryNote": "Leave at the front door",
+    "PreferredDeliveryTime": "Morning",
+    "MemberDOB": "1990-01-01",
+    "IOType": "Inpatient",
+    "AuthNumberFacets": "Auth123",
+    "StartDT": "2024-08-01",
+    "EndDT": "2025-08-01",
+    "Status": "Active"
+}
+
+###
+# Test GET /api/customers route
+GET http://localhost:3000/api/customers

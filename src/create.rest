@@ -1,0 +1,11 @@
+
+### Create Admin
+POST http://localhost:3000/auth/create-admin
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IlN1cGVyIEFkbWluIiwiaWF0IjoxNzIzOTAzNDUyLCJleHAiOjE3MjM5MDcwNTJ9.OTFYayvO8saZKVjUw4-NjjAwUJkhbbaxt-R9awzR3Jw
+
+{
+    "email": "meesamimran464@gmail.com",
+    "username": "newadmin",
+    "phone": "555-555-5555"
+}
