@@ -1,22 +1,55 @@
 const Disputes = require('../models/Disputes');
 
 exports.createDispute = async (disputeData) => {
-  return await Disputes.create(disputeData);
+  try {
+    const newDispute = await Disputes.create(disputeData);
+    return newDispute;
+  } catch (error) {
+    throw new Error('Error creating dispute: ' + error.message);
+  }
 };
 
 exports.getAllDisputes = async () => {
-  return await Disputes.findAll();
+  try {
+    const disputes = await Disputes.find();
+    return disputes;
+  } catch (error) {
+    throw new Error('Error retrieving disputes: ' + error.message);
+  }
 };
 
 exports.getDisputeById = async (id) => {
-  return await Disputes.findByPk(id);
+  try {
+    const dispute = await Disputes.findById(id);
+    if (!dispute) {
+      throw new Error('Dispute not found');
+    }
+    return dispute;
+  } catch (error) {
+    throw new Error('Error retrieving dispute: ' + error.message);
+  }
 };
 
 exports.updateDispute = async (id, disputeData) => {
-  await Disputes.update(disputeData, { where: { DisputeID: id } });
-  return await Disputes.findByPk(id);
+  try {
+    const updatedDispute = await Disputes.findByIdAndUpdate(id, disputeData, { new: true });
+    if (!updatedDispute) {
+      throw new Error('Dispute not found');
+    }
+    return updatedDispute;
+  } catch (error) {
+    throw new Error('Error updating dispute: ' + error.message);
+  }
 };
 
 exports.deleteDispute = async (id) => {
-  return await Disputes.destroy({ where: { DisputeID: id } });
+  try {
+    const deletedDispute = await Disputes.findByIdAndDelete(id);
+    if (!deletedDispute) {
+      throw new Error('Dispute not found');
+    }
+    return deletedDispute;
+  } catch (error) {
+    throw new Error('Error deleting dispute: ' + error.message);
+  }
 };

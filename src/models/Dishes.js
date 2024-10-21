@@ -1,68 +1,69 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const mongoose = require('mongoose');
 
-const Dishes = sequelize.define('Dishes', {
+const dishesSchema = new mongoose.Schema({
   MenuID: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+    type: Number,
+    required: true,
   },
   VendorID: {
-    type: DataTypes.INTEGER,
-    allowNull: false,  // Corresponds to 'vendor' from the UI form
-  },
-  DishID: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true, // Ensure that DishID auto-increments
+    type: Number,
+    required: true,
   },
   DishPrice: {
-    type: DataTypes.INTEGER,
-    allowNull: false, // Ensure that DishID auto-increments
+    type: Number,
+    required: true,
   },
   DishName: {
-    type: DataTypes.STRING(45),
-    allowNull: false,  // Corresponds to 'title' from the UI form
+    type: String,
+    required: true,
+    maxlength: 45,
   },
   DishCategory: {
-    type: DataTypes.STRING(45),
-    allowNull: false,  // Corresponds to 'category' from the UI form
+    type: String,
+    required: true,
+    maxlength: 45,
   },
   DishDescription: {
-    type: DataTypes.STRING(255),
-    allowNull: true,  // Corresponds to 'description' from the UI form
+    type: String,
+    maxlength: 255,
+    default: null,
   },
   DishTags: {
-    type: DataTypes.JSON,  // Using JSON to store the meal labels (checkboxes)
-    allowNull: true,       // Corresponds to 'labels' from the UI form
+    type: [String],
+    default: [],
   },
   DishDetails: {
-    type: DataTypes.STRING(255),  // Increased length for ingredients
-    allowNull: true,  // Corresponds to 'ingredients' from the UI form
+    type: String,
+    maxlength: 255,
+    default: null,
   },
   DishRating: {
-    type: DataTypes.DECIMAL(10, 1),
-    allowNull: true,
+    type: mongoose.Types.Decimal128,
+    default: null,
   },
   DishPhotoPath: {
-    type: DataTypes.STRING(255),  // Increased length to allow for full image path
-    allowNull: true,  // Corresponds to 'images' from the UI form (image path)
+    type: String,
+    maxlength: 255,
+    default: null,
   },
   DishStatus: {
-    type: DataTypes.STRING(45),
-    allowNull: false,  // Corresponds to 'DishStatus' ('available') from the form
+    type: String,
+    required: true,
+    maxlength: 45,
   },
- 
   NutritionInfo: {
-    type: DataTypes.STRING(255),  // Increased length for nutrition information
-    allowNull: true,  // Corresponds to 'nutritionInfo' from the UI form
+    type: String,
+    maxlength: 255,
+    default: null,
   },
   Allergies: {
-    type: DataTypes.STRING(255),  // Increased length for allergies
-    allowNull: true,  // Corresponds to 'allergies' from the UI form
-  },
+    type: String,
+    maxlength: 255,
+    default: null,
+  }
 }, {
-  tableName: 'Dishes',
-  timestamps: true,  // Will add createdAt and updatedAt fields automatically
+  collection: 'Dishes',
+  timestamps: true // Automatically add `createdAt` and `updatedAt` fields
 });
 
-module.exports = Dishes;
+module.exports = mongoose.model('Dishes', dishesSchema);

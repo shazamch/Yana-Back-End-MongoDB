@@ -1,27 +1,31 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const mongoose = require('mongoose');
 
-const Disputes = sequelize.define('Disputes', {
-  DisputeID: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
+const DisputeSchema = new mongoose.Schema({
   ClaimID: {
-    type: DataTypes.INTEGER,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Claims',
+    required: true,
   },
   Dispute: {
-    type: DataTypes.STRING(45),
+    type: String,
+    maxlength: 255,  // Limiting string length
+    required: true,
   },
   Status: {
-    type: DataTypes.STRING(45),
+    type: String,
+    maxlength: 45,  // Limiting string length
+    required: true,
   },
   AdminID: {
-    type: DataTypes.INTEGER,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Admin',
+    required: true,
   },
 }, {
-  tableName: 'Disputes',
+  collection: 'Disputes',
   timestamps: true,
 });
+
+const Disputes = mongoose.model('Disputes', DisputeSchema);
 
 module.exports = Disputes;

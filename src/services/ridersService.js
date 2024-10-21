@@ -1,22 +1,58 @@
 const Riders = require('../models/Riders');
 
 exports.createRider = async (riderData) => {
-  return await Riders.create(riderData);
+  try {
+    const newRider = await Riders.create(riderData); // Create a new rider
+    return newRider;
+  } catch (error) {
+    throw new Error('Error creating rider: ' + error.message);
+  }
 };
 
 exports.getAllRiders = async () => {
-  return await Riders.findAll();
+  try {
+    const riders = await Riders.find(); // Retrieve all riders
+    return riders;
+  } catch (error) {
+    throw new Error('Error retrieving riders: ' + error.message);
+  }
 };
 
 exports.getRiderById = async (id) => {
-  return await Riders.findByPk(id);
+  try {
+    const rider = await Riders.findById(id); // Retrieve rider by ID
+    if (!rider) {
+      throw new Error('Rider not found');
+    }
+    return rider;
+  } catch (error) {
+    throw new Error('Error retrieving rider: ' + error.message);
+  }
 };
 
 exports.updateRider = async (id, riderData) => {
-  await Riders.update(riderData, { where: { RiderID: id } });
-  return await Riders.findByPk(id);
+  try {
+    const rider = await Riders.findById(id); // Find the rider by ID
+    if (!rider) {
+      throw new Error('Rider not found');
+    }
+    Object.assign(rider, riderData); // Update rider details
+    await rider.save(); // Save the updated rider
+    return rider;
+  } catch (error) {
+    throw new Error('Error updating rider: ' + error.message);
+  }
 };
 
 exports.deleteRider = async (id) => {
-  return await Riders.destroy({ where: { RiderID: id } });
+  try {
+    const rider = await Riders.findById(id); // Find the rider by ID
+    if (!rider) {
+      throw new Error('Rider not found');
+    }
+    await rider.remove(); // Delete the rider
+    return;
+  } catch (error) {
+    throw new Error('Error deleting rider: ' + error.message);
+  }
 };

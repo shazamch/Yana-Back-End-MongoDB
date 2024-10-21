@@ -1,40 +1,34 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const mongoose = require('mongoose');
 
-const RepeatOrder = sequelize.define('RepeatOrder', {
-  PlanID: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-  },
+const RepeatOrderSchema = new mongoose.Schema({
   CustomerID: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'Customer',
-      key: 'CustomerID',
-    },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Customer',
   },
   DishID: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Dishes',
   },
   VendorID: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Dishes',
   },
   MenuID: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Dishes',
   },
   Status: {
-    type: DataTypes.STRING(45),
-    allowNull: true,
+    type: String,
+    maxlength: 45,
+    default: null,
   },
 }, {
-  tableName: 'RepeatOrder',
+  collection: 'RepeatOrder',
   timestamps: true,
 });
 
-module.exports = RepeatOrder;
+module.exports = mongoose.model('RepeatOrder', RepeatOrderSchema);

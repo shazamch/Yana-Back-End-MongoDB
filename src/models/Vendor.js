@@ -1,55 +1,63 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const mongoose = require('mongoose');
 
-const Vendor = sequelize.define('Vendor', {
-  VendorID: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true, // Auto-increment for primary key
-  },
+const VendorSchema = new mongoose.Schema({
   Username: {
-    type: DataTypes.STRING(45),
+    type: String,
+    maxlength: 45,
     unique: true,
+    required: true,
   },
   Password: {
-    type: DataTypes.STRING(64),
+    type: String,
+    maxlength: 64,
+    required: true,
   },
   Name: {
-    type: DataTypes.STRING(45),
-    allowNull: false, // Set to false if Name should be required
+    type: String,
+    maxlength: 45,
+    required: true,
   },
   Phone: {
-    type: DataTypes.STRING(45),
-    allowNull: false, // Set to false if Phone should be required
+    type: String,
+    maxlength: 45,
+    required: true,
     unique: true,
   },
   Email: {
-    type: DataTypes.STRING(45),
-    allowNull: false, // Set to false if Email should be required
+    type: String,
+    maxlength: 45,
+    required: true,
     unique: true,
   },
   Address: {
-    type: DataTypes.STRING(45),
-    allowNull: true,
+    type: String,
+    maxlength: 45,
+    default: null,
   },
   ProfilePhotoPath: {
-    type: DataTypes.STRING(45),
-    allowNull: true,
+    type: String,
+    maxlength: 45,
+    default: null,
   },
   Rating: {
-    type: DataTypes.DECIMAL(10, 1),
-    allowNull: true,
+    type: Number,
+    default: null,
+    min: 0,
+    max: 10,
   },
   Status: {
-    type: DataTypes.STRING(45),
+    type: String,
+    maxlength: 45,
+    default: null,
   },
   SecurityQuestion: {
-    type: DataTypes.STRING(100),
-    allowNull: true,
+    type: String,
+    maxlength: 100,
+    default: null,
   },
 }, {
-  tableName: 'Vendor',
+  collection: 'Vendor',
   timestamps: true,
 });
 
-module.exports = Vendor;
+module.exports = mongoose.model('Vendor', VendorSchema);

@@ -1,30 +1,19 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const mongoose = require('mongoose');
 
-const FavDish = sequelize.define('FavDish', {
+const FavDishSchema = new mongoose.Schema({
   CustomerID: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'Customer',
-      key: 'CustomerID',
-    },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Customer',
   },
   DishID: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'Dishes',
-      key: 'DishID',
-    },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Dishes',
   },
 }, {
-  tableName: 'FavDish',
+  collection: 'FavDish',
   timestamps: true,
 });
 
-module.exports = FavDish;
+module.exports = mongoose.model('FavDish', FavDishSchema);

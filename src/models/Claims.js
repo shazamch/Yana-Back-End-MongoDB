@@ -1,57 +1,61 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const mongoose = require('mongoose');
 
-const Claims = sequelize.define('Claims', {
-  ClaimID: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
+const ClaimsSchema = new mongoose.Schema({
   CustomerID: {
-    type: DataTypes.INTEGER,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Customer',
+    required: true,
   },
   OrderID: {
-    type: DataTypes.INTEGER,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Order',
+    required: true,
   },
   ClaimDate: {
-    type: DataTypes.DATE,
+    type: Date,
+    required: true,
   },
   Facility: {
-    type: DataTypes.STRING(45),
+    type: String,
+    maxlength: 45,
   },
   UnitPrice: {
-    type: DataTypes.INTEGER,
+    type: Number,
   },
   Units: {
-    type: DataTypes.INTEGER,
+    type: Number,
   },
   Days: {
-    type: DataTypes.INTEGER,
+    type: Number,
   },
   BilledAmount: {
-    type: DataTypes.INTEGER,
+    type: Number,
   },
   BillDate: {
-    type: DataTypes.DATE,
+    type: Date,
   },
   BillStatus: {
-    type: DataTypes.STRING(45),
+    type: String,
+    maxlength: 45,
   },
-  AllowedAomunt: {
-    type: DataTypes.INTEGER,
+  AllowedAmount: {
+    type: Number,
   },
   PaidAmount: {
-    type: DataTypes.INTEGER,
+    type: Number,
   },
   PaymentDate: {
-    type: DataTypes.DATE,
+    type: Date,
   },
   CheckNo: {
-    type: DataTypes.STRING(45),
+    type: String,
+    maxlength: 45,
   },
 }, {
-  tableName: 'Claims',
+  collection: 'Claims',
   timestamps: true,
 });
+
+const Claims = mongoose.model('Claims', ClaimsSchema);
 
 module.exports = Claims;

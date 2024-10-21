@@ -1,8 +1,10 @@
 const Orders = require('../models/Orders');
 
 exports.createOrder = async (orderData) => {
+  console.log(orderData)
   try {
-    const newOrder = await Orders.create(orderData); // Creating a new order in the database
+    const newOrder = new Orders(orderData); // Creating a new order instance
+    await newOrder.save(); // Use save() for better compatibility with Mongoose schema validations
     return newOrder;
   } catch (error) {
     throw new Error('Error creating order: ' + error.message);
@@ -32,12 +34,10 @@ exports.getOrderById = async (id) => {
 
 exports.updateOrder = async (id, orderData) => {
   try {
-    const order = await Orders.findById(id); // Find the order by ID
+    const order = await Orders.findByIdAndUpdate(id, orderData, { new: true, runValidators: true }); // Update and return the updated order
     if (!order) {
       throw new Error('Order not found');
     }
-    Object.assign(order, orderData); // Update order details
-    await order.save(); // Save the updated order
     return order;
   } catch (error) {
     throw new Error('Error updating order: ' + error.message);
@@ -46,11 +46,10 @@ exports.updateOrder = async (id, orderData) => {
 
 exports.deleteOrder = async (id) => {
   try {
-    const order = await Orders.findById(id); // Find the order by ID
+    const order = await Orders.findByIdAndDelete(id); // Find and delete order by ID
     if (!order) {
       throw new Error('Order not found');
     }
-    await order.remove(); // Delete the order
     return;
   } catch (error) {
     throw new Error('Error deleting order: ' + error.message);

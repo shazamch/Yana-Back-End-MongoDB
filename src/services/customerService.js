@@ -48,7 +48,9 @@ exports.getAllCustomers = async () => {
 
 exports.getCustomerById = async (id) => {
   try {
-    const customer = await Customer.findById(id).populate('Coordinator').populate('Insurance');
+    const customer = await Customer.findById(id)
+      .populate({ path: 'CoordinatorID', model: 'Coordinator' })
+      .populate({ path: 'InsuranceID', model: 'Insurance' });
     if (!customer) {
       throw new Error('Customer not found');
     }

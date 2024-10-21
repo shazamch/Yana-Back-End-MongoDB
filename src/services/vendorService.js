@@ -32,12 +32,13 @@ exports.getVendorById = async (id) => {
 
 exports.updateVendor = async (id, vendorData) => {
   try {
-    const vendor = await Vendor.findById(id); // Find the vendor by ID
+    const vendor = await Vendor.findByIdAndUpdate(id, vendorData, {
+      new: true, // Return the updated vendor
+      runValidators: true // Ensure that validation is applied
+    });
     if (!vendor) {
       throw new Error('Vendor not found');
     }
-    Object.assign(vendor, vendorData); // Update vendor details
-    await vendor.save(); // Save the updated vendor
     return vendor;
   } catch (error) {
     throw new Error('Error updating vendor: ' + error.message);
@@ -46,11 +47,10 @@ exports.updateVendor = async (id, vendorData) => {
 
 exports.deleteVendor = async (id) => {
   try {
-    const vendor = await Vendor.findById(id); // Find the vendor by ID
+    const vendor = await Vendor.findByIdAndDelete(id); // Find and delete the vendor by ID
     if (!vendor) {
       throw new Error('Vendor not found');
     }
-    vendor.remove(); // Delete the vendor
     return;
   } catch (error) {
     throw new Error('Error deleting vendor: ' + error.message);

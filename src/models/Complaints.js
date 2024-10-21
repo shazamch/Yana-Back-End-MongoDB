@@ -1,38 +1,42 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const mongoose = require('mongoose');
 
-
-const Complaints = sequelize.define('Complaints', {
-  ComplaintID: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
+const complaintsSchema = new mongoose.Schema({
   CustomerID: {
-    type: DataTypes.INTEGER,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Customer',
+    required: true,
   },
   OrderID: {
-    type: DataTypes.INTEGER,
-  },
-  ComplaintDescription: {
-    type: DataTypes.STRING(200),
-  },
-  ComplaintStatus: {
-    type: DataTypes.STRING(45),
-  },
-  ComplaintDateTime: {
-    type: DataTypes.DATE,
-  },
-  ComplaintResolveDateTime: {
-    type: DataTypes.DATE,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Order',
+    required: true,
   },
   AdminID: {
-    type: DataTypes.INTEGER,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Admin',
+    required: true,
+  },
+  ComplaintDescription: {
+    type: String,
+    maxlength: 255,
+    required: true,
+  },
+  ComplaintStatus: {
+    type: String,
+    maxlength: 45,
+  },
+  ComplaintDateTime: {
+    type: Date,
+    required: true,
+  },
+  ComplaintResolveDateTime: {
+    type: Date,
   },
 }, {
-  tableName: 'Complaints',
+  collection: 'Complaints',
   timestamps: true,
 });
 
-module.exports = Complaints;
+const Complaints = mongoose.model('Complaints', complaintsSchema);
 
+module.exports = Complaints;

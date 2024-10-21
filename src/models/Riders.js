@@ -1,41 +1,50 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const mongoose = require('mongoose');
 
-const Riders = sequelize.define('Riders', {
-  RiderID: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  Username: {
-    type: DataTypes.STRING(45),
+const RidersSchema = new mongoose.Schema({
+Username: {
+    type: String,
+    maxlength: 45,
     unique: true,
+    required: true,
   },
   Password: {
-    type: DataTypes.STRING(64),
+    type: String,
+    maxlength: 64,
+    required: true,
   },
   Phone: {
-    type: DataTypes.STRING(45),
+    type: String,
+    maxlength: 45,
+    required: true,
   },
   Email: {
-    type: DataTypes.STRING(45),
+    type: String,
+    maxlength: 45,
+    required: true,
   },
   ProfilePhotoPath: {
-    type: DataTypes.STRING(45),
+    type: String,
+    maxlength: 45,
+    default: null,
   },
   Address: {
-    type: DataTypes.STRING(45),
+    type: String,
+    maxlength: 45,
+    default: null,
   },
   Status: {
-    type: DataTypes.STRING(45),
+    type: String,
+    maxlength: 45,
+    default: null,
   },
   SecurityQuestion: {
-    type: DataTypes.STRING(100),
-    allowNull: true,
+    type: String,
+    maxlength: 100,
+    default: null,
   },
 }, {
-  tableName: 'Riders',
+  collection: 'Rider',
   timestamps: true,
 });
 
-module.exports = Riders;
+module.exports = mongoose.model('Rider', RidersSchema);

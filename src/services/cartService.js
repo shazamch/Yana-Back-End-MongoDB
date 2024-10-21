@@ -11,7 +11,7 @@ exports.addToCart = async (cartData) => {
 
 exports.getAllCartItems = async () => {
   try {
-    const cartItems = await Cart.findAll();
+    const cartItems = await Cart.find().populate('CustomerID DishID'); // Populate referenced documents
     return cartItems;
   } catch (error) {
     throw new Error('Error retrieving cart items: ' + error.message);
@@ -20,7 +20,7 @@ exports.getAllCartItems = async () => {
 
 exports.getCartItemById = async (id) => {
   try {
-    const cartItem = await Cart.findByPk(id);
+    const cartItem = await Cart.findById(id).populate('CustomerID DishID'); // Populate referenced documents
     if (!cartItem) {
       throw new Error('Cart item not found');
     }
@@ -32,11 +32,12 @@ exports.getCartItemById = async (id) => {
 
 exports.updateCartItem = async (id, cartData) => {
   try {
-    const cartItem = await Cart.findByPk(id);
+    const cartItem = await Cart.findById(id);
     if (!cartItem) {
       throw new Error('Cart item not found');
     }
-    await cartItem.update(cartData);
+    Object.assign(cartItem, cartData); // Update properties
+    await cartItem.save(); // Save the updated document
     return cartItem;
   } catch (error) {
     throw new Error('Error updating cart item: ' + error.message);
@@ -45,11 +46,11 @@ exports.updateCartItem = async (id, cartData) => {
 
 exports.deleteCartItem = async (id) => {
   try {
-    const cartItem = await Cart.findByPk(id);
+    const cartItem = await Cart.findById(id);
     if (!cartItem) {
       throw new Error('Cart item not found');
     }
-    await cartItem.destroy();
+    await cartItem.remove(); // Use remove() for Mongoose
     return;
   } catch (error) {
     throw new Error('Error deleting cart item: ' + error.message);

@@ -1,30 +1,21 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const mongoose = require('mongoose');
 
-const Cart = sequelize.define('Cart', {
+const CartSchema = new mongoose.Schema({
   CustomerID: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'Customer',
-      key: 'CustomerID',
-    },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Customer',
+    required: true,
   },
   DishID: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'Dishes',
-      key: 'DishID',
-    },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Dishes',
+    required: true,
   },
 }, {
-  tableName: 'Cart',
   timestamps: true,
+  collection: 'Cart', // Specify the collection name
 });
+
+const Cart = mongoose.model('Cart', CartSchema);
 
 module.exports = Cart;

@@ -1,36 +1,42 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
-const Delivery = sequelize.define('Delivery', {
-  DeliveryID: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
+const mongoose = require('mongoose');
+
+const deliverySchema = new mongoose.Schema({
   CustomerID: {
-    type: DataTypes.INTEGER,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Customer',
+    required: true,
   },
   RiderID: {
-    type: DataTypes.INTEGER,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Rider',
+    required: true,
   },
   OrderID: {
-    type: DataTypes.INTEGER,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Order',
+    required: true,
   },
   DeliveryDateTime: {
-    type: DataTypes.DATE,
-    allowNull: false,  // Make sure this matches your existing schema
+    type: Date,
+    required: true,
   },
   Rating: {
-    type: DataTypes.STRING(45),
+    type: String,
+    maxlength: 45,
   },
   ProofPhotoPath: {
-    type: DataTypes.STRING(45),
+    type: String,
+    maxlength: 45,
   },
   RiderNote: {
-    type: DataTypes.STRING(200),
+    type: String,
+    maxlength: 200,
   },
 }, {
-  tableName: 'Delivery',
+  collection: 'Delivery',
   timestamps: true,
 });
 
+// Create and export the Delivery model
+const Delivery = mongoose.model('Delivery', deliverySchema);
 module.exports = Delivery;

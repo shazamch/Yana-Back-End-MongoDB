@@ -1,57 +1,70 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const mongoose = require('mongoose');
 
-const Orders = sequelize.define('Orders', {
-  OrderID: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
+const OrdersSchema = new mongoose.Schema({
   CustomerID: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'Customer',
-      key: 'CustomerID',
-    },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Customer',
   },
   CustomerName: {
-    type: DataTypes.STRING(45),
-    allowNull: true,
+    type: String,
+    maxlength: 45,
+    default: null,
   },
   DishIDsList: {
-    type: DataTypes.JSON,
-    allowNull: true,
+    type: [{
+      DishID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Dishes',
+        required: true,
+      },
+      VendorID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Vendor',
+        required: true,
+      },
+      DishName: {
+        type: String,
+        maxlength: 100,
+        required: true,
+      },
+      Count: {
+        type: Number,
+        required: true,
+      },
+    }],
+    default: [],
   },
   OrderInstructions: {
-    type: DataTypes.STRING(45),
-    allowNull: true,
+    type: String,
+    maxlength: 45,
+    default: null,
   },
   OrderCost: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
+    type: Number,
+    default: null,
   },
   OrderPlaceDateTime: {
-    type: DataTypes.DATE,
-    allowNull: true,
+    type: Date,
+    default: null,
   },
   OrderCompleteDateTime: {
-    type: DataTypes.DATE,
-    allowNull: true,
+    type: Date,
+    default: null,
   },
   DeliveryAddress: {
-    type: DataTypes.STRING(200),
-    allowNull: true,
+    type: String,
+    maxlength: 200,
+    default: null,
   },
   Status: {
-    type: DataTypes.STRING(45),
-    allowNull: true,
+    type: String,
+    maxlength: 45,
+    default: null,
   },
 }, {
-  tableName: 'Orders',
+  collection: 'Orders',
   timestamps: true,
 });
 
-module.exports = Orders;
+module.exports = mongoose.model('Orders', OrdersSchema);
