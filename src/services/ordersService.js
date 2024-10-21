@@ -1,7 +1,6 @@
 const Orders = require('../models/Orders');
 
 exports.createOrder = async (orderData) => {
-  console.log(orderData)
   try {
     const newOrder = new Orders(orderData); // Creating a new order instance
     await newOrder.save(); // Use save() for better compatibility with Mongoose schema validations
