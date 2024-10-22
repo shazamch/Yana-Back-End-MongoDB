@@ -19,8 +19,7 @@ const OrdersSchema = new mongoose.Schema({
         required: true,
       },
       VendorID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Vendor',
+        type: Number,
         required: true,
       },
       DishName: {
