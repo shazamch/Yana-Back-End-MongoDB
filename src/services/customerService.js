@@ -89,7 +89,9 @@ exports.deleteCustomer = async (id) => {
 
 exports.getCustomerByUsername = async (username) => {
   try {
-    const customer = await Customer.findOne({ Username: username }).populate('Coordinator').populate('Insurance');
+    const customer = await Customer.findOne({ Username: username })
+    .populate({ path: 'CoordinatorID', model: 'Coordinator', as: 'Coordinator' }) // Use an alias in populate
+          .populate({ path: 'InsuranceID', model: 'Insurance', as: 'Insurance' });
     return customer;
   } catch (error) {
     throw new Error('Error retrieving customer by username: ' + error.message);
