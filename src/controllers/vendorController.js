@@ -6,7 +6,7 @@ exports.createVendor = async (req, res, next) => {
     console.log("Request to create vendor:", req.body); // Log the incoming request data
 
     // Validate input
-    if (!req.body.name || !req.body.phone) {
+    if (!req.body.Name || !req.body.Phone) {
       throw new CustomError('Vendor name and phone are required', 400);
     }
 
